@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
+@Table(name = "transferencia")
 public class TransferenciaJPA {
 
     @Id
@@ -19,11 +20,11 @@ public class TransferenciaJPA {
     private BigDecimal valor;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "pagador_id", nullable = false)
     private UsuarioJPA pagador;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "recebedor_id", nullable = false)
     private UsuarioJPA recebedor;
 
 }

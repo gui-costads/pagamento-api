@@ -6,6 +6,7 @@ import com.pagamento_app.pagamento.validation.ValidEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -30,6 +31,14 @@ public class UsuarioJPA {
     @Column(nullable = false, name = "sobrenome")
     private String sobrenome;
 
+    @NotBlank(message = "CPF/CNPJ é obrigatório")
+    @Pattern(
+            regexp = "^(\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2})$",
+            message = "Documento inválido (Use formato CPF: 123.456.789-10 ou CNPJ: 12.345.678/0001-99)"
+    )
+    @Column(nullable = false, unique = true)
+    private String documento;
+
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
     @Column(nullable = false, name = "email")
@@ -48,8 +57,10 @@ public class UsuarioJPA {
     @Enumerated(EnumType.STRING)
     private TipoDeUsuario tipoDeUsuario;
 
-    @Column(nullable = false, name = "transferencia")
-    @OneToMany(mappedBy = "usuario")
-    private List<Transferencia> transferencia;
+    @OneToMany(mappedBy = "pagador", cascade = CascadeType.ALL)
+    private List<TransferenciaJPA> transferenciasEnviadas;
+
+    @OneToMany(mappedBy = "recebedor", cascade = CascadeType.ALL)
+    private List<TransferenciaJPA> transferenciasRecebidas;
 
 }
