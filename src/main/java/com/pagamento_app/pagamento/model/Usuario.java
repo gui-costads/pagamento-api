@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.util.List;
 
+import com.pagamento_app.pagamento.types.enums.TipoDeUsuario;
+
 @Data
 public class Usuario {
 
@@ -12,6 +14,7 @@ public class Usuario {
     private String sobrenome;
     private String email;
     private String senha;
-    private Enum tipoDeUsuario;
+    private BigDecimal saldo;
+    private TipoDeUsuario tipoDeUsuario;
     private List<Transferencia> transferencia;
 }

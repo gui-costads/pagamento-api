@@ -7,9 +7,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -57,10 +59,13 @@ public class UsuarioJPA {
     @Enumerated(EnumType.STRING)
     private TipoDeUsuario tipoDeUsuario;
 
-    @OneToMany(mappedBy = "pagador", cascade = CascadeType.ALL)
+    @PositiveOrZero
+    private BigDecimal saldo;
+
+    @OneToMany(mappedBy = "pagador", fetch = FetchType.LAZY)
     private List<TransferenciaJPA> transferenciasEnviadas;
 
-    @OneToMany(mappedBy = "recebedor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recebedor", fetch = FetchType.LAZY)
     private List<TransferenciaJPA> transferenciasRecebidas;
 
 }

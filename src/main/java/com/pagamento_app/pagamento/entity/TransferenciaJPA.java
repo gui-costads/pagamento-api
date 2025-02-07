@@ -19,11 +19,11 @@ public class TransferenciaJPA {
     @Column(nullable = false, name = "valor")
     private BigDecimal valor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pagador_id", nullable = false)
     private UsuarioJPA pagador;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recebedor_id", nullable = false)
     private UsuarioJPA recebedor;
 

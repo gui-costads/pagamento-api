@@ -4,8 +4,8 @@ import lombok.Getter;
 
 public enum TipoDeUsuario {
 
-    Lojista("Lojista"),
-    CLiente("Cliente");
+    LOJISTA("Lojista"),
+    CLIENTE("Cliente");
 
     @Getter
     private final String descricao;
