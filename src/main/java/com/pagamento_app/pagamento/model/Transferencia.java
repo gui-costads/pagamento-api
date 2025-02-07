@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 @Data
 public class Transferencia {
 
-    private Integer id;
     private BigDecimal valor;
     private Integer pagadorId;
     private Integer recebedorId;

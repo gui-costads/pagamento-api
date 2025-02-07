@@ -1,6 +1,5 @@
 package com.pagamento_app.pagamento.entity;
 
-import com.pagamento_app.pagamento.model.Transferencia;
 import com.pagamento_app.pagamento.types.enums.TipoDeUsuario;
 import com.pagamento_app.pagamento.validation.ValidEnum;
 import jakarta.persistence.*;

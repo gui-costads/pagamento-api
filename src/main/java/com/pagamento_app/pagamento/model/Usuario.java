@@ -3,6 +3,7 @@ package com.pagamento_app.pagamento.model;
 import lombok.Data;
 
 import java.util.List;
+import java.math.BigDecimal;
 
 import com.pagamento_app.pagamento.types.enums.TipoDeUsuario;
 
