@@ -1,4 +1,3 @@
-
 # Pagamento API
 
 Este é um projeto para aprendizado criando uma API para gerenciamento de pagamentos, construída em Java usando Spring Boot e PostgreSQL.
