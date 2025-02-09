@@ -13,6 +13,7 @@ public class Usuario {
     private String nome;
     private String sobrenome;
     private String email;
+    private String documento;
     private String senha;
     private BigDecimal saldo;
     private TipoDeUsuario tipoDeUsuario;

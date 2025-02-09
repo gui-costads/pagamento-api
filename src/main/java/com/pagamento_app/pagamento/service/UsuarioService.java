@@ -1,6 +1,7 @@
 package com.pagamento_app.pagamento.service;
 
 import com.pagamento_app.pagamento.entity.UsuarioJPA;
+import com.pagamento_app.pagamento.exception.UsuarioNotFoundException;
 import com.pagamento_app.pagamento.model.Usuario;
 import com.pagamento_app.pagamento.repository.UsuarioRepository;
 
@@ -24,12 +25,14 @@ public class UsuarioService {
     }
 
     public Usuario buscarPorId(Integer id) {
-        return modelMapper.map(usuarioRepository.findById(id).get(), Usuario.class);
+        return modelMapper.map(usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado com o ID: " + id)), Usuario.class);
     }
 
     public Usuario salvar(Usuario usuario) {
         UsuarioJPA usuarioJPA = modelMapper.map(usuario, UsuarioJPA.class);
-        return modelMapper.map(usuarioRepository.save(usuarioJPA), Usuario.class);
+        usuarioJPA = usuarioRepository.save(usuarioJPA);
+        return modelMapper.map(usuarioJPA, Usuario.class);
     }
 
     public void excluir(Integer id) {
