@@ -28,4 +28,11 @@ public class TransferenciaController {
         return ResponseEntity.ok(transferenciaService.salvar(transferencia));
     }
 
+    @GetMapping("/recebedor/{id}")
+    public ResponseEntity<List<Transferencia>> listarTransferenciasPorRecebedorId(Integer id) {
+        return ResponseEntity.ok(transferenciaService.listarTransferenciasDeRecebedor(id));
+    }
+
+
+
 }

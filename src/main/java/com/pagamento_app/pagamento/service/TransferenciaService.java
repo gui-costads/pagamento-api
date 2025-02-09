@@ -37,19 +37,19 @@ public class TransferenciaService {
         HashMap<String,UsuarioJPA> usuarios = validarTransferencia(transferencia);
 
         UsuarioJPA pagador = usuarios.get("Pagador");
-        UsuarioJPA beneficiario = usuarios.get("Beneficiário");
+        UsuarioJPA recebedor = usuarios.get("Recebedor");
 
          pagador.setSaldo(pagador.getSaldo().subtract(transferencia.getValor()));
-         beneficiario.setSaldo(beneficiario.getSaldo().add(transferencia.getValor()));
+        recebedor.setSaldo(recebedor.getSaldo().add(transferencia.getValor()));
          
          usuarioRepository.save(pagador);
-         usuarioRepository.save(beneficiario);
+         usuarioRepository.save(recebedor);
 
         TransferenciaJPA transferenciaJPA = modelMapper.map(transferencia, TransferenciaJPA.class);
         transferenciaJPA = transferenciaRepository.save(transferenciaJPA);
 
         CompletableFuture.runAsync(() -> {
-            notificacaoService.enviarNotificacao(beneficiario, transferencia.getValor());
+            notificacaoService.enviarNotificacao(recebedor, transferencia.getValor());
         });
 
         return modelMapper.map(transferenciaJPA, Transferencia.class);
@@ -59,7 +59,12 @@ public class TransferenciaService {
         List<TransferenciaJPA> transferencias = transferenciaRepository.findByPagadorId(id);
         return transferencias.stream().map(transferenciaJPA -> modelMapper.map(transferenciaJPA, Transferencia.class)).toList();
     }
-    
+
+    public List<Transferencia> listarTransferenciasDeRecebedor(Integer id) {
+        List<TransferenciaJPA> transferencias = transferenciaRepository.findByRecebedorId(id);
+        return transferencias.stream().map(transferenciaJPA -> modelMapper.map(transferenciaJPA, Transferencia.class)).toList();
+    }
+
 
     private HashMap<String,UsuarioJPA> validarTransferencia(Transferencia transferencia) {
 
@@ -68,8 +73,8 @@ public class TransferenciaService {
         UsuarioJPA pagador = usuarioRepository.findById(transferencia.getPagadorId())
             .orElseThrow(() -> new IllegalArgumentException("Pagador não encontrado"));
             
-        UsuarioJPA beneficiario = usuarioRepository.findById(transferencia.getRecebedorId())
-            .orElseThrow(() -> new IllegalArgumentException("Beneficiário não encontrado"));
+        UsuarioJPA recebedor = usuarioRepository.findById(transferencia.getRecebedorId())
+            .orElseThrow(() -> new IllegalArgumentException("Recebedor não encontrado"));
             
         if (pagador.getTipoDeUsuario() == TipoDeUsuario.LOJISTA) {
             throw new IllegalArgumentException("Lojistas não podem realizar transferências");
@@ -84,13 +89,14 @@ public class TransferenciaService {
         }
 
         usuarios.put("Pagador", pagador);
-        usuarios.put("Beneficiário", beneficiario);
+        usuarios.put("Recebedor", recebedor);
 
         return usuarios;
 
 
     }
-    
+
+
     
 
 

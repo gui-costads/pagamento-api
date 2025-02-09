@@ -10,7 +10,6 @@ import com.pagamento_app.pagamento.types.enums.TipoDeUsuario;
 @Data
 public class Usuario {
 
-    private Integer id;
     private String nome;
     private String sobrenome;
     private String email;
